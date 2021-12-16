@@ -1,7 +1,20 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Header from "../Header/Header";
 import "./home.css";
 
 export default function Home() {
+  const [movies, setMovies] = useState([]);
+  useEffect(() => {
+    axios
+      .get("https://mock-api.driven.com.br/api/v4/cineflex/movies")
+      .then((response) => {
+        setMovies(response.data);
+      });
+  }, []);
+  console.log(movies);
+
   return (
     <div>
       <Header />
@@ -9,41 +22,13 @@ export default function Home() {
         <h2>Selecione o Filme</h2>
       </div>
       <div className="moviesDisplay">
-        <div className="movieBox">
-          <img
-            className="movie"
-            src="https://images.unsplash.com/photo-1639580831803-692ef0b4f6aa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
-            alt="movie"
-          />
-        </div>
-        <div className="movieBox">
-          <img
-            className="movie"
-            src="https://images.unsplash.com/photo-1639580831803-692ef0b4f6aa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
-            alt="movie"
-          />
-        </div>
-        <div className="movieBox">
-          <img
-            className="movie"
-            src="https://images.unsplash.com/photo-1639580831803-692ef0b4f6aa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
-            alt="movie"
-          />
-        </div>
-        <div className="movieBox">
-          <img
-            className="movie"
-            src="https://images.unsplash.com/photo-1639580831803-692ef0b4f6aa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
-            alt="movie"
-          />
-        </div>
-        <div className="movieBox">
-          <img
-            className="movie"
-            src="https://images.unsplash.com/photo-1639580831803-692ef0b4f6aa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
-            alt="movie"
-          />
-        </div>
+        {movies.map((movie) => (
+          <Link to={`sessoes/${movie.id}`}>
+            <div key={movie.id} className="movieBox">
+              <img className="movie" src={movie.posterURL} alt="movie" />
+            </div>
+          </Link>
+        ))}
       </div>
     </div>
   );

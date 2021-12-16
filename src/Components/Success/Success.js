@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Header from "../Header/Header";
 import "./success.css";
 export default function Success() {
@@ -22,9 +23,11 @@ export default function Success() {
         <p>Nome: Joao da Silva</p>
         <p>CPF: 123.456.789.10</p>
       </div>
-      <div className="successBtn">
-        <button>Voltar para Home</button>
-      </div>
+      <Link to="/">
+        <div className="successBtn">
+          <button>Voltar para Home</button>
+        </div>
+      </Link>
     </>
   );
 }

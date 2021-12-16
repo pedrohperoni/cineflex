@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import "./seats.css";
@@ -46,6 +47,11 @@ export default function Seats() {
         <p>CPF do comprador:</p>
         <input placeholder="Digite seu CPF..."></input>
       </div>
+      <Link to="/sucesso">
+        <div className="seatsBtn">
+          <button className="seatsBtn">Reservar assento(s)</button>
+        </div>
+      </Link>
       <Footer />
     </>
   );

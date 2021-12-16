@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 
@@ -14,7 +15,10 @@ export default function Time() {
       <div className="dateContainer">
         <p>Quinta-feira - 24/06/2021</p>
         <div>
-          <button>15:00</button>
+          <Link to="/assentos">
+            <button>15:00</button>
+          </Link>
+
           <button>15:00</button>
         </div>
       </div>
