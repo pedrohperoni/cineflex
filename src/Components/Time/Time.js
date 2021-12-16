@@ -1,3 +1,4 @@
+import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 
 import "./time.css";
@@ -24,6 +25,7 @@ export default function Time() {
           <button>15:00</button>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
