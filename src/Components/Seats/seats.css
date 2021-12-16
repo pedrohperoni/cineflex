@@ -1,0 +1,95 @@
+.seatsTitle {
+  height: 110px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.seatsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 18px 7px;
+  margin: 0 24px;
+}
+
+.seat {
+  background-color: #c3cfd9;
+  border: 1px solid #808f9d;
+  border-radius: 50%;
+  height: 26px;
+  width: 26px;
+  border: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #000000;
+  font-size: 11px;
+}
+
+.selected {
+  background-color: #8dd7cf;
+  border: 1px solid #45bdb0;
+}
+
+.unavailable {
+  background-color: #fbe192;
+  border: 1px solid #f7c52b;
+}
+
+.seatsLegend {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 16px;
+}
+
+.seatsLegend div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.seatsLegend p {
+  font-size: 0.8rem;
+  color: #4e5a65;
+  margin-top: 10px;
+}
+
+.seatsInputContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 40px;
+}
+
+.seatsInputContainer p {
+  width: 345px;
+  font-size: 1.125rem;
+  margin: 4px 7px;
+}
+
+.seatsInputContainer input {
+  border: 1px solid #d5d5d5;
+  border-radius: 3px;
+  width: 327px;
+  height: 47px;
+  color: #afafaf;
+  padding-left: 18px;
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.seatsInputContainer input::placeholder {
+  color: #afafaf;
+  font-size: 18px;
+  line-height: 21px;
+  font-style: italic;
+}

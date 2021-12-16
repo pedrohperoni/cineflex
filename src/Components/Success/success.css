@@ -1,0 +1,42 @@
+.successTitle {
+  height: 110px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.successTitle h2 {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin: 90px;
+  color: #247a6b;
+}
+
+.successInfo {
+  margin: 0 28px 30px 28px;
+}
+
+.successInfo h2 {
+  font-weight: 700;
+  color: #293845;
+  margin-bottom: 12px;
+}
+
+.successInfo p {
+  font-size: 1.375rem;
+  line-height: 26px;
+}
+
+.successBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 62px;
+}
+
+.successBtn button {
+  width: 225px;
+}

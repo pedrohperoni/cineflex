@@ -1,0 +1,30 @@
+.timeTitle {
+  height: 110px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dateContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 0 24px 24px;
+}
+
+.dateContainer p {
+  font-size: 1.25rem;
+  color: #293845;
+  margin-bottom: 22px;
+}
+
+.dateContainer button {
+  margin-right: 8px;
+  width: 83px;
+  height: 43px;
+}
+
+.dateContainer button:hover {
+  opacity: 0.6;
+}

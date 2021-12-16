@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+button,
+input,
+select,
+textarea {
+  font-family: "Roboto", sans-serif;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+body {
+  width: 100%;
+  overflow: hidden;
+}
+
+button {
+  background-color: #e8833a;
+  color: #fff;
+  font-size: 1.125rem;
+  height: 43px;
+  text-align: center;
+  border: 0px;
+  border-radius: 3px;
+}
