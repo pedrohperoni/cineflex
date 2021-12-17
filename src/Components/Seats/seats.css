@@ -39,8 +39,6 @@
 .unavailable {
   background-color: #fbe192;
   border: 1px solid #f7c52b;
-  pointer-events: none;
-  cursor: not-allowed;
 }
 
 .unavailable:hover {
@@ -105,7 +103,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 62px;
+  margin-top: 18px;
 }
 
 .seatsBtn button {

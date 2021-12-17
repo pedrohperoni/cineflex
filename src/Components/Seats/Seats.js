@@ -8,7 +8,10 @@ import "./seats.css";
 export default function Seats() {
   const { idSessao } = useParams();
   const [movie, setMovie] = useState();
+  const [footerInfo, setFooterInfo] = useState();
   const [objectCreation, setObjectCreation] = useState(false);
+  const [userCPF, setUserCPF] = useState();
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     axios
@@ -16,11 +19,13 @@ export default function Seats() {
         `https://mock-api.driven.com.br/api/v4/cineflex/showtimes/${idSessao}/seats`
       )
       .then((response) => {
+        setFooterInfo(response.data);
         setMovie(response.data.seats);
       });
   }, []);
 
   console.log("ORIGINAL", movie);
+  console.log(userName, userCPF);
 
   const selectSeat = (seatId) => {
     const newSeatsArray = [...movie];
@@ -32,6 +37,10 @@ export default function Seats() {
       setObjectCreation(true);
       setMovie(newSeatsArray);
       console.log("RESULTADO", movie);
+    } else if (movie[seatId - 1].selected === true) {
+      movie[seatId - 1].selected = false;
+      console.log("toggle", movie);
+      setMovie(newSeatsArray);
     } else {
       movie[seatId - 1].selected = true;
       console.log("RESULTADOTRUE", movie);
@@ -40,7 +49,7 @@ export default function Seats() {
   };
 
   if (movie === undefined) {
-    return <>Carregando...</>;
+    return <>Loading...</>;
   }
 
   return (
@@ -60,7 +69,11 @@ export default function Seats() {
                   : "seat"
                 : "seat unavailable"
             }
-            onClick={() => selectSeat(seat.name)}
+            onClick={() =>
+              seat.isAvailable
+                ? selectSeat(seat.name)
+                : alert("Esse assento não está disponível")
+            }
           >
             {seat.name}
           </button>
@@ -82,9 +95,17 @@ export default function Seats() {
       </div>
       <div className="seatsInputContainer">
         <p>Nome do comprador:</p>
-        <input placeholder="Digite seu nome..."></input>
+        <input
+          onChange={(e) => setUserName(e.target.value)}
+          placeholder="Digite seu nome..."
+        ></input>
         <p>CPF do comprador:</p>
-        <input placeholder="Digite seu CPF..."></input>
+        <input
+          onChange={(e) => setUserCPF(e.target.value)}
+          placeholder="Digite seu CPF..."
+          type="text"
+          pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}"
+        ></input>
       </div>
       <Link to="/sucesso">
         <div className="seatsBtn">
@@ -92,10 +113,10 @@ export default function Seats() {
         </div>
       </Link>
       <Footer
-      //   title={movie.movie.title}
-      //   posterURL={movie.movie.posterURL}
-      //   day={movie.day.date}
-      //   time={movie.name}
+        title={footerInfo.movie.title}
+        posterURL={footerInfo.movie.posterURL}
+        day={footerInfo.day.date}
+        time={footerInfo.name}
       />
     </>
   );
