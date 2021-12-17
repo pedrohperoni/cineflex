@@ -39,23 +39,29 @@
 .unavailable {
   background-color: #fbe192;
   border: 1px solid #f7c52b;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
-.seatsLegend {
+.unavailable:hover {
+  opacity: 1;
+}
+
+.seatsSubtitle {
   display: flex;
   align-items: center;
   justify-content: space-around;
   margin-top: 16px;
 }
 
-.seatsLegend div {
+.seatsSubtitle div {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
 
-.seatsLegend p {
+.seatsSubtitle p {
   font-size: 0.8rem;
   color: #4e5a65;
   margin-top: 10px;

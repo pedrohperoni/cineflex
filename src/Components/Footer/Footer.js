@@ -1,6 +1,6 @@
 import "./footer.css";
 
-export default function Footer({ title, posterURL }) {
+export default function Footer({ title, posterURL, time, day }) {
   return (
     <div className="footer">
       <div className="footerImg">
@@ -8,7 +8,10 @@ export default function Footer({ title, posterURL }) {
       </div>
       <div>
         <p>{title}</p>
-        <p>Quinta-Feira - 15:00</p>
+        <p>
+          {day}
+          {time ? " -" : " "} {time}
+        </p>
       </div>
     </div>
   );
