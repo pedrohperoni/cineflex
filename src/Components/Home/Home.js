@@ -6,6 +6,7 @@ import "./home.css";
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
+
   useEffect(() => {
     axios
       .get("https://mock-api.driven.com.br/api/v4/cineflex/movies")
@@ -13,7 +14,6 @@ export default function Home() {
         setMovies(response.data);
       });
   }, []);
-  console.log(movies);
 
   return (
     <div>
@@ -23,8 +23,8 @@ export default function Home() {
       </div>
       <div className="moviesDisplay">
         {movies.map((movie) => (
-          <Link to={`sessoes/${movie.id}`}>
-            <div key={movie.id} className="movieBox">
+          <Link key={movie.id} to={`sessoes/${movie.id}`}>
+            <div className="movieBox">
               <img className="movie" src={movie.posterURL} alt="movie" />
             </div>
           </Link>

@@ -1,10 +1,30 @@
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
+import { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 
 import "./time.css";
 
 export default function Time() {
+  const { idFilme } = useParams();
+  const [dates, setDates] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://mock-api.driven.com.br/api/v4/cineflex/movies/${idFilme}/showtimes`
+      )
+      .then((response) => {
+        setDates(response.data);
+      });
+  }, []);
+
+  if (dates == null) {
+    return <>Carregando...</>;
+  }
+
   return (
     <>
       <Header />
@@ -12,24 +32,22 @@ export default function Time() {
         <h2>Selecione o horário</h2>
       </div>
 
-      <div className="dateContainer">
-        <p>Quinta-feira - 24/06/2021</p>
-        <div>
-          <Link to="/assentos">
-            <button>15:00</button>
-          </Link>
+      {dates.days.map((date) => (
+        <div key={date.id} className="dateContainer">
+          <p>
+            {date.weekday} - {date.date}
+          </p>
+          <div>
+            {date.showtimes.map((showtime) => (
+              <Link key={showtime.id} to={`/assentos/:${showtime.id}`}>
+                <button>{showtime.name}</button>
+              </Link>
+            ))}
+          </div>
+        </div>
+      ))}
 
-          <button>15:00</button>
-        </div>
-      </div>
-      <div className="dateContainer">
-        <p>Quinta-feira - 24/06/2021</p>
-        <div>
-          <button>15:00</button>
-          <button>15:00</button>
-        </div>
-      </div>
-      <Footer />
+      <Footer title={dates.title} posterURL={dates.posterURL} />
     </>
   );
 }
