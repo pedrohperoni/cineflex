@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Footer from "../Footer/Footer";
@@ -7,11 +7,15 @@ import "./seats.css";
 
 export default function Seats() {
   const { idSessao } = useParams();
+  const navigate = useNavigate();
+
   const [movie, setMovie] = useState();
   const [footerInfo, setFooterInfo] = useState();
   const [objectCreation, setObjectCreation] = useState(false);
-  const [userCPF, setUserCPF] = useState();
+
+  const [userCPF, setUserCPF] = useState("");
   const [userName, setUserName] = useState("");
+  const [selectedSeats, setSelectedSeats] = useState([]);
 
   useEffect(() => {
     axios
@@ -24,38 +28,55 @@ export default function Seats() {
       });
   }, []);
 
-  console.log("aaaaaaaaaaaa", useParams());
+  console.log(userCPF, userName, selectedSeats);
 
-  console.log("ORIGINAL", movie);
-  console.log(userName, userCPF);
-
-  const selectSeat = (seatId) => {
+  const selectSeat = (seatNumber, seatId) => {
     const newSeatsArray = [...movie];
     if (!objectCreation) {
       newSeatsArray.forEach(function (x) {
         x.selected = false;
       });
-      movie[seatId - 1].selected = true;
+      movie[seatNumber - 1].selected = true;
+      setSelectedSeats([seatId]);
       setObjectCreation(true);
       setMovie(newSeatsArray);
-      console.log("RESULTADO", movie);
-    } else if (movie[seatId - 1].selected === true) {
-      movie[seatId - 1].selected = false;
-      console.log("toggle", movie);
+    } else if (movie[seatNumber - 1].selected === true) {
+      movie[seatNumber - 1].selected = false;
       setMovie(newSeatsArray);
+
+      let seatsArray = [...selectedSeats];
+      let filterSeatsArray = seatsArray.filter((seat) => {
+        return seat !== seatId;
+      });
+      setSelectedSeats(filterSeatsArray);
     } else {
-      movie[seatId - 1].selected = true;
-      console.log("RESULTADOTRUE", movie);
+      movie[seatNumber - 1].selected = true;
+      setSelectedSeats([...selectedSeats, seatId]);
       setMovie(newSeatsArray);
     }
   };
 
-  function handleSuccess() {
-    alert("aea");
+  function handleSubmit() {
+    axios
+      .post("https://mock-api.driven.com.br/api/v4/cineflex/seats/book-many", {
+        ids: selectedSeats,
+        name: userName,
+        cpf: userCPF,
+      })
+      .then((response) => {
+        navigate("/sucesso");
+      });
   }
 
   if (movie === undefined) {
-    return <>Loading...</>;
+    return (
+      <>
+        <Header />
+        <div className="seatsTitle">
+          <h2>Selecione o(s) assento(s)</h2>
+        </div>
+      </>
+    );
   }
 
   return (
@@ -77,7 +98,7 @@ export default function Seats() {
             }
             onClick={() =>
               seat.isAvailable
-                ? selectSeat(seat.name)
+                ? selectSeat(seat.name, seat.id)
                 : alert("Esse assento não está disponível")
             }
           >
@@ -113,13 +134,17 @@ export default function Seats() {
           pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}"
         ></input>
       </div>
-      <Link to="/sucesso" title={footerInfo.movie.title}>
-        <div className="seatsBtn">
-          <button onClick={() => handleSuccess()} className="seatsBtn">
-            Reservar assento(s)
-          </button>
-        </div>
-      </Link>
+      <div
+        className={
+          userCPF === "" || userName === "" || selectedSeats.length === 0
+            ? "seatsBtn disabled"
+            : "seatsBtn"
+        }
+      >
+        <button onClick={() => handleSubmit()} className="seatsBtn">
+          Reservar assento(s)
+        </button>
+      </div>
       <Footer
         title={footerInfo.movie.title}
         posterURL={footerInfo.movie.posterURL}
