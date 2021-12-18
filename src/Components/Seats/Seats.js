@@ -10,12 +10,13 @@ export default function Seats() {
   const navigate = useNavigate();
 
   const [movie, setMovie] = useState();
-  const [footerInfo, setFooterInfo] = useState();
+  const [movieInfo, setMovieInfo] = useState();
   const [objectCreation, setObjectCreation] = useState(false);
 
   const [userCPF, setUserCPF] = useState("");
   const [userName, setUserName] = useState("");
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedSeatsNumber, setSelectedSeatsNumber] = useState([]);
 
   useEffect(() => {
     axios
@@ -23,12 +24,12 @@ export default function Seats() {
         `https://mock-api.driven.com.br/api/v4/cineflex/showtimes/${idSessao}/seats`
       )
       .then((response) => {
-        setFooterInfo(response.data);
+        setMovieInfo(response.data);
         setMovie(response.data.seats);
       });
   }, []);
 
-  console.log(userCPF, userName, selectedSeats);
+  console.log(selectedSeatsNumber);
 
   const selectSeat = (seatNumber, seatId) => {
     const newSeatsArray = [...movie];
@@ -38,6 +39,7 @@ export default function Seats() {
       });
       movie[seatNumber - 1].selected = true;
       setSelectedSeats([seatId]);
+      setSelectedSeatsNumber([seatNumber]);
       setObjectCreation(true);
       setMovie(newSeatsArray);
     } else if (movie[seatNumber - 1].selected === true) {
@@ -49,9 +51,16 @@ export default function Seats() {
         return seat !== seatId;
       });
       setSelectedSeats(filterSeatsArray);
+
+      let seatsNumberArray = [...selectedSeatsNumber];
+      let filterSeatsNumberArray = seatsNumberArray.filter((seat) => {
+        return seat !== seatNumber;
+      });
+      setSelectedSeatsNumber(filterSeatsNumberArray);
     } else {
       movie[seatNumber - 1].selected = true;
       setSelectedSeats([...selectedSeats, seatId]);
+      setSelectedSeatsNumber([...selectedSeatsNumber, seatNumber]);
       setMovie(newSeatsArray);
     }
   };
@@ -64,7 +73,16 @@ export default function Seats() {
         cpf: userCPF,
       })
       .then((response) => {
-        navigate("/sucesso");
+        navigate("/sucesso", {
+          state: {
+            movie: movieInfo.movie.title,
+            date: movieInfo.day.date,
+            time: movieInfo.name,
+            seats: selectedSeatsNumber,
+            name: userName,
+            cpf: userCPF,
+          },
+        });
       });
   }
 
@@ -146,10 +164,10 @@ export default function Seats() {
         </button>
       </div>
       <Footer
-        title={footerInfo.movie.title}
-        posterURL={footerInfo.movie.posterURL}
-        day={footerInfo.day.date}
-        time={footerInfo.name}
+        title={movieInfo.movie.title}
+        posterURL={movieInfo.movie.posterURL}
+        day={movieInfo.day.date}
+        time={movieInfo.name}
       />
     </>
   );
