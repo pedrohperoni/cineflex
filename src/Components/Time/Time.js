@@ -40,7 +40,11 @@ export default function Time() {
           </p>
           <div>
             {date.showtimes.map((showtime) => (
-              <Link key={showtime.id} to={`/assentos/${showtime.id}`}>
+              <Link
+                teste={"teste"}
+                key={showtime.id}
+                to={`/assentos/${showtime.id}`}
+              >
                 <button>{showtime.name}</button>
               </Link>
             ))}

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Header from "../Header/Header";
 import "./success.css";
-export default function Success() {
+export default function Success({ title }) {
   return (
     <>
       <Header />
@@ -10,7 +10,7 @@ export default function Success() {
       </div>
       <div className="successInfo">
         <h2>Filme e sessão</h2>
-        <p>Enola Holmes</p>
+        <p>{title}</p>
         <p>24/06/2021 15:00</p>
       </div>
       <div className="successInfo">

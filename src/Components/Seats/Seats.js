@@ -24,6 +24,8 @@ export default function Seats() {
       });
   }, []);
 
+  console.log("aaaaaaaaaaaa", useParams());
+
   console.log("ORIGINAL", movie);
   console.log(userName, userCPF);
 
@@ -47,6 +49,10 @@ export default function Seats() {
       setMovie(newSeatsArray);
     }
   };
+
+  function handleSuccess() {
+    alert("aea");
+  }
 
   if (movie === undefined) {
     return <>Loading...</>;
@@ -107,9 +113,11 @@ export default function Seats() {
           pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}"
         ></input>
       </div>
-      <Link to="/sucesso">
+      <Link to="/sucesso" title={footerInfo.movie.title}>
         <div className="seatsBtn">
-          <button className="seatsBtn">Reservar assento(s)</button>
+          <button onClick={() => handleSuccess()} className="seatsBtn">
+            Reservar assento(s)
+          </button>
         </div>
       </Link>
       <Footer
