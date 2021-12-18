@@ -1,9 +1,17 @@
 import { Link, useLocation } from "react-router-dom";
 import Header from "../Header/Header";
+import Loader from "../Loader/Loader";
 import "./success.css";
 export default function Success() {
   const { state } = useLocation();
-  console.log(state);
+
+  if (state === null) {
+    return (
+      <>
+        <Loader />
+      </>
+    );
+  }
   return (
     <>
       <Header />

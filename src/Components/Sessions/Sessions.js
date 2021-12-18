@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
+import Loader from "../Loader/Loader";
 
-import "./time.css";
+import "./sessions.css";
 
 export default function Time() {
   const { idFilme } = useParams();
@@ -20,10 +21,12 @@ export default function Time() {
       });
   }, []);
 
-  console.log(dates);
-
   if (dates == null) {
-    return <>Carregando...</>;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
 
   return (
@@ -40,11 +43,7 @@ export default function Time() {
           </p>
           <div>
             {date.showtimes.map((showtime) => (
-              <Link
-                teste={"teste"}
-                key={showtime.id}
-                to={`/assentos/${showtime.id}`}
-              >
+              <Link key={showtime.id} to={`/assentos/${showtime.id}`}>
                 <button>{showtime.name}</button>
               </Link>
             ))}

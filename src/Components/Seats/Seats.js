@@ -4,6 +4,7 @@ import axios from "axios";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import "./seats.css";
+import Loader from "../Loader/Loader";
 
 export default function Seats() {
   const { idSessao } = useParams();
@@ -15,7 +16,7 @@ export default function Seats() {
 
   const [userCPF, setUserCPF] = useState("");
   const [userName, setUserName] = useState("");
-  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedSeatsId, setSelectedSeatsId] = useState([]);
   const [selectedSeatsNumber, setSelectedSeatsNumber] = useState([]);
 
   useEffect(() => {
@@ -29,16 +30,14 @@ export default function Seats() {
       });
   }, []);
 
-  console.log(selectedSeatsNumber);
-
   const selectSeat = (seatNumber, seatId) => {
     const newSeatsArray = [...movie];
     if (!objectCreation) {
-      newSeatsArray.forEach(function (x) {
-        x.selected = false;
+      newSeatsArray.forEach((seat) => {
+        seat.selected = false;
       });
       movie[seatNumber - 1].selected = true;
-      setSelectedSeats([seatId]);
+      setSelectedSeatsId([seatId]);
       setSelectedSeatsNumber([seatNumber]);
       setObjectCreation(true);
       setMovie(newSeatsArray);
@@ -46,11 +45,11 @@ export default function Seats() {
       movie[seatNumber - 1].selected = false;
       setMovie(newSeatsArray);
 
-      let seatsArray = [...selectedSeats];
-      let filterSeatsArray = seatsArray.filter((seat) => {
+      let seatsArrayId = [...selectedSeatsId];
+      let filterSeatsIdArray = seatsArrayId.filter((seat) => {
         return seat !== seatId;
       });
-      setSelectedSeats(filterSeatsArray);
+      setSelectedSeatsId(filterSeatsIdArray);
 
       let seatsNumberArray = [...selectedSeatsNumber];
       let filterSeatsNumberArray = seatsNumberArray.filter((seat) => {
@@ -59,7 +58,7 @@ export default function Seats() {
       setSelectedSeatsNumber(filterSeatsNumberArray);
     } else {
       movie[seatNumber - 1].selected = true;
-      setSelectedSeats([...selectedSeats, seatId]);
+      setSelectedSeatsId([...selectedSeatsId, seatId]);
       setSelectedSeatsNumber([...selectedSeatsNumber, seatNumber]);
       setMovie(newSeatsArray);
     }
@@ -68,7 +67,7 @@ export default function Seats() {
   function handleSubmit() {
     axios
       .post("https://mock-api.driven.com.br/api/v4/cineflex/seats/book-many", {
-        ids: selectedSeats,
+        ids: selectedSeatsId,
         name: userName,
         cpf: userCPF,
       })
@@ -89,10 +88,7 @@ export default function Seats() {
   if (movie === undefined) {
     return (
       <>
-        <Header />
-        <div className="seatsTitle">
-          <h2>Selecione o(s) assento(s)</h2>
-        </div>
+        <Loader />
       </>
     );
   }
@@ -154,7 +150,7 @@ export default function Seats() {
       </div>
       <div
         className={
-          userCPF === "" || userName === "" || selectedSeats.length === 0
+          userCPF === "" || userName === "" || selectedSeatsId.length === 0
             ? "seatsBtn disabled"
             : "seatsBtn"
         }
